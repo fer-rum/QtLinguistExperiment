@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/translations">
+        <file>translations/TranslatableApplication_de.qm</file>
+        <file>translations/TranslatableApplication_de.ts</file>
+        <file>translations/TranslatableApplication_en.qm</file>
+        <file>translations/TranslatableApplication_en.ts</file>
+    </qresource>
+</RCC>

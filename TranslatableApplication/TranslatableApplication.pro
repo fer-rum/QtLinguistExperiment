@@ -11,3 +11,10 @@ CONFIG -= app_bundle
 TEMPLATE = app
 
 SOURCES += main.cpp
+
+TRANSLATIONS += \
+    translations/TranslatableApplication_en.ts \
+    translations/TranslatableApplication_de.ts
+
+RESOURCES += \
+    translations.qrc
