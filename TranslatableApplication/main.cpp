@@ -7,14 +7,10 @@
 #include <QLibraryInfo>
 #include <iostream>
 
-void printDirectText(){
-
-    QString directText = QObject::tr("Hello World!");
-    std::cout << "Direct text: " << directText.toStdString() << std::endl;
-}
-
 void printIdBasedText(){
 
+
+    //% "Greetings"
     QString idText = qtTrId("text_greeting");
     std::cout << "Replaced Id: " << idText.toStdString() << std::endl;
 }
@@ -32,23 +28,48 @@ int main(int argc, char *argv[])
     QTranslator translatorEN;
 
     // loading translation files from ressources
+    // note the different ways of loading translators
     translatorDE.load(":/translations/translations/TranslatableApplication_de.qm");
-    translatorEN.load(":/translations/translations/TranslatableApplication_en.qm");
+    translatorEN.load(QLocale(QLocale::English, QLocale::UnitedKingdom),
+                      "TranslatableApplication", "_",
+                      ":/translations/translations/", ".qm");
+
+    std::cout << "=== Switching language to german ===" << std::endl;
 
     app.installTranslator(&translatorDE);
-
-    // TODO show off multiple contexts
-    // TODO try composite strings
-    // TODO show translation of multiplicities
-
-    printDirectText();
     printIdBasedText();
 
     std::cout << "=== Switching language to english ===" << std::endl;
 
     app.installTranslator(&translatorEN);
-    printDirectText();
     printIdBasedText();
+
+
+    std::string input;
+
+    std::cout << "=== Live input ===" << std::endl;
+    std::cout << "Type \"text_magic\" and watch stuff happen: ";
+    std::cin >> input;
+
+    std::cout << qtTrId(input.c_str()).toStdString() << std::endl;
+
+    // show off multiple contexts not available in id-based mode
+    // try composite strings
+
+    std::string composite = QString("%1_%2").arg("text").arg("magic").toStdString();
+
+    std::cout << "=== Composite id ===" << std::endl;
+    std::cout << composite << " = "
+              << qtTrId(composite.c_str()).toStdString()
+              << std::endl;
+
+    // show translation of multiplicities
+    for(int i = 0; i < 10; i++){
+
+        QString toPrint = qtTrId("%n apple", i);
+        std::cout <<  toPrint.toStdString() << std::endl;
+    }
+
 
     return 0;
 }
